@@ -16,6 +16,17 @@
     @media (min-width: 640px) { .drawer-open #main-stage { margin-left: 24rem; } }
     .dossier-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
     .dossier-open .dossier-content { max-height: 2000px; }
+
+    /* Frosted glass treatment (previously missing entirely) */
+    .glass-panel {
+      background-color: rgba(10, 14, 22, 0.60);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      backdrop-filter: blur(18px) saturate(160%);
+    }
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      /* Fallback for browsers without backdrop-filter support */
+      .glass-panel { background-color: rgba(10, 14, 22, 0.92); }
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
@@ -48,8 +59,8 @@
 </head>
 <body class="bg-surface-container-lowest font-body-md text-on-surface antialiased drawer-open flex flex-col h-screen">
 
-  <!-- Restrained Header -->
-  <header class="h-16 shrink-0 w-full px-6 flex items-center justify-between border-b border-outline/10 bg-surface-container-lowest z-40 relative">
+  <!-- Restrained Header (now frosted glass, sticky) -->
+  <header class="glass-panel h-16 shrink-0 w-full px-6 flex items-center justify-between border-b border-outline/10 z-40 relative sticky top-0">
     <div class="flex items-center gap-4">
       <button onclick="toggleDrawer()" class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-colors">
         <span class="material-symbols-outlined">menu</span>
@@ -84,8 +95,8 @@
 
   <div class="flex flex-1 relative overflow-hidden">
     
-    <!-- Left Drawer (Controls) -->
-    <aside id="drawer" class="absolute top-0 left-0 h-full w-[90vw] sm:w-96 bg-surface-container-low border-r border-outline/10 z-30 overflow-y-auto flex flex-col">
+    <!-- Left Drawer (Controls) - now frosted glass -->
+    <aside id="drawer" class="glass-panel absolute top-0 left-0 h-full w-[90vw] sm:w-96 border-r border-outline/10 z-30 overflow-y-auto flex flex-col">
       <div class="p-6 flex flex-col gap-4 md:p-8">
         
         <!-- Mode & Architecture -->
@@ -614,7 +625,7 @@
             concentration: state.concentration
           });
           document.getElementById('efficiencyValue').innerText = `${res.pce_pct.toFixed(1)}%`;
-          document.getElementById('efficiencySub').innerText = `Shockley-Queisser Limit (${state.concentration}x Sun)`;
+          document.getElementById('efficiencySub').innerHTML = `Shockley-Queisser Limit (${state.concentration}x Sun)`;
           document.getElementById('jscVal').innerText = `${res.jsc_mA_cm2.toFixed(1)} mA/cm²`;
           document.getElementById('vocVal').innerText = `${res.voc_V.toFixed(2)} V`;
           document.getElementById('ffVal').innerText = `${res.ff_pct.toFixed(1)}%`;
@@ -630,10 +641,13 @@
             charge_balance: 0.9
           });
           document.getElementById('efficiencyValue').innerText = `${res.iqe_pct.toFixed(1)}%`;
-          document.getElementById('efficiencySub').innerText = res.spin_limit_label;
+          // FIX: was innerText, which shows "<sub>" as literal text instead of
+          // rendering the subscript. spin_limit_label can contain HTML (e.g. eta_S tags).
+          document.getElementById('efficiencySub').innerHTML = res.spin_limit_label;
         } catch (err) {
           document.getElementById('efficiencyValue').innerText = `7.2%`;
-          document.getElementById('efficiencySub').innerText = `η<sub>S</sub>=25% (fluorescent singlet limit)`;
+          // FIX: same innerText -> innerHTML issue in the fallback path
+          document.getElementById('efficiencySub').innerHTML = `η<sub>S</sub>=25% (fluorescent singlet limit)`;
         }
       }
 
@@ -840,32 +854,50 @@
         });
 
         // Advanced Collision Logic (OLED Recombination)
+        // FIX: previously only recombined when an electron/hole pair happened
+        // to already be within 14px purely by chance (random y offsets), so
+        // most passes never got close enough - hence "only 1 collision in the
+        // first wave". Now, pairs within the recombination zone gently steer
+        // toward each other's y position so they actually converge, and the
+        // capture radius / trigger probability are both increased so
+        // recombination happens reliably and repeatedly as particles cycle
+        // through, not just on a rare lucky pass.
         if (state.mode === 'oled') {
           const recombZoneStart = midX - 40;
           const recombZoneEnd = midX + 40;
           const electrons = particles.filter(p => p.type === 'electron' && p.x >= recombZoneStart && p.x <= recombZoneEnd);
           const holes = particles.filter(p => p.type === 'hole' && p.x >= recombZoneStart && p.x <= recombZoneEnd);
           const consumedHoles = new Set();
-          
+
           electrons.forEach(e => {
             let nearestHole = null;
             let nearestDist = Infinity;
             holes.forEach(h => {
               if (consumedHoles.has(h)) return;
               const dist = Math.hypot(e.x - h.x, e.y - h.y);
-              if (dist < 14 && dist < nearestDist) {
+              if (dist < nearestDist) {
                 nearestDist = dist;
                 nearestHole = h;
               }
             });
 
-            if (nearestHole && Math.random() < 0.06) {
-              consumedHoles.add(nearestHole);
-              bursts.push(new Burst((e.x + nearestHole.x) / 2, (e.y + nearestHole.y) / 2, '#ffc640'));
-              e.x = 35;
-              e.y = Math.random() * (logicalHeight - 20) + 10;
-              nearestHole.x = logicalWidth - 35;
-              nearestHole.y = Math.random() * (logicalHeight - 20) + 10;
+            if (nearestHole) {
+              // Mutual attraction: pull the pair's y-positions together while
+              // they're both in the zone, so they actually meet instead of
+              // passing at unrelated heights.
+              if (nearestDist < 60) {
+                const pull = 0.05;
+                const targetY = (e.y + nearestHole.y) / 2;
+                e.y += (targetY - e.y) * pull;
+                nearestHole.y += (targetY - nearestHole.y) * pull;
+              }
+              // Wider capture radius + higher trigger probability than before
+              if (nearestDist < 22 && Math.random() < 0.18) {
+                consumedHoles.add(nearestHole);
+                bursts.push(new Burst((e.x + nearestHole.x) / 2, (e.y + nearestHole.y) / 2, '#ffc640'));
+                e.reset();
+                nearestHole.reset();
+              }
             }
           });
         }
