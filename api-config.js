@@ -7,7 +7,7 @@ const API_CONFIG = {
   BASE_URL: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://localhost:8000'
     : 'https://semisim-backend.onrender.com', // Replace with your Render URL if hosted
-  TIMEOUT_MS: 5000
+  TIMEOUT_MS: 30000
 };
 
 // Utility to perform resilient POST requests with timeout
