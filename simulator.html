@@ -48,7 +48,12 @@
   <script src="api-config.js"></script>
 </head>
 <body class="bg-surface-container-lowest font-body-md text-on-surface antialiased drawer-open flex flex-col h-screen">
-
+  <!-- Global ambient layer — gives ALL glass panels (header, drawer, main) something to blur -->
+  <div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+    <div class="absolute top-[-10%] left-[5%] w-[500px] h-[500px] rounded-full bg-primary/[0.09] blur-[100px]"></div>
+    <div class="absolute top-[20%] right-[-5%] w-[600px] h-[500px] rounded-full bg-tertiary/[0.08] blur-[100px]"></div>
+    <div class="absolute bottom-[-10%] left-[30%] w-[550px] h-[450px] rounded-full bg-secondary/[0.06] blur-[100px]"></div>
+  </div>
   <!-- Restrained Header -->
   <header class="h-16 shrink-0 w-full px-6 flex items-center justify-between border-b border-outline/10 z-40 relative glass">
     <div class="flex items-center gap-4">
@@ -84,7 +89,7 @@
   <div class="flex flex-1 relative overflow-hidden">
     <!-- Ambient blobs behind drawer for glass depth -->
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-0 left-0 w-96 h-full bg-gradient-to-b from-primary/[0.03] via-transparent to-tertiary/[0.03]"></div>
+      <div class="absolute top-0 left-0 w-96 h-full bg-gradient-to-b from-primary/[0.07] via-transparent to-tertiary/[0.03]"></div>
     </div>
     
     <!-- Left Drawer (Controls) -->
@@ -189,9 +194,9 @@
     <main id="main-stage" class="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col items-center bg-surface-container-lowest relative">
       <!-- Ambient gradient blobs — gives backdrop-filter something to blur -->
       <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div class="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-primary/[0.04] blur-3xl"></div>
-        <div class="absolute top-1/3 -right-48 w-[600px] h-[400px] rounded-full bg-tertiary/[0.04] blur-3xl"></div>
-        <div class="absolute -bottom-48 left-1/4 w-[500px] h-[500px] rounded-full bg-secondary/[0.03] blur-3xl"></div>
+        <div class="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-primary/[0.06] blur-3xl"></div>
+        <div class="absolute top-1/3 -right-48 w-[600px] h-[400px] rounded-full bg-tertiary/[0.06] blur-3xl"></div>
+        <div class="absolute -bottom-48 left-1/4 w-[500px] h-[500px] rounded-full bg-secondary/[0.05] blur-3xl"></div>
       </div>
       <div class="w-full max-w-5xl flex flex-col gap-12 pt-8 pb-32 relative z-10">
         
