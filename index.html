@@ -24,30 +24,34 @@
   <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="glass.css">
 <script id="tailwind-config">
-  <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
-          colors: {
-            "secondary": "#ffc640",
-            "on-error-container": "#ffdad6",
-            "on-surface": "#dfe2ee",
-            "inverse-on-surface": "#2c3039",
-            "on-primary-container": "#004965",
-            "primary": "#8ed5ff",
-            "surface-bright": "#353942",
-            "background": "#0f131c",
-            "tertiary": "#e1c0ff",
-            "inverse-primary": "#00668a",
-            "error": "#ffb4ab",
-            "surface-container-lowest": "#0a0e16",
-            "surface-variant": "#31353e",
-            "surface-container-highest": "#31353e",
-            "surface-container-low": "#181c24",
-            "surface": "#0f131c",
-            "on-primary": "#00354a",
-            "outline": "#87929a",
+            colors: {
+  "secondary": "#ffc640",
+  "on-error-container": "#ffdad6",
+  "on-surface": "#dfe2ee",
+  "on-surface-variant": "#bdc8d1",
+  "inverse-on-surface": "#2c3039",
+  "on-primary-container": "#004965",
+  "primary": "#8ed5ff",
+  "primary-container": "#38bdf8",
+  "surface-bright": "#353942",
+  "background": "#0f131c",
+  "tertiary": "#e1c0ff",
+  "on-tertiary": "#490081",
+  "inverse-primary": "#00668a",
+  "error": "#ffb4ab",
+  "surface-container-lowest": "#0a0e16",
+  "surface-variant": "#31353e",
+  "surface-container-highest": "#31353e",
+  "surface-container-low": "#181c24",
+  "surface-container": "#1c2028",
+  "surface": "#0f131c",
+  "on-primary": "#00354a",
+  "on-secondary": "#402d00",
+  "outline": "#87929a",
           },
           fontFamily: {
             "body-sm": ["Inter"], "display-lg": ["IBM Plex Sans"], "body-lg": ["Inter"],
@@ -93,7 +97,8 @@
   <main class="w-full flex flex-col items-center">
     
     <!-- Hero Section -->
-    <section class="min-h-screen w-full flex flex-col items-center justify-center text-center px-4 relative">
+   <section class="min-h-screen w-full flex flex-col items-center justify-center px-4 py-24 bg-surface-container-low relative overflow-hidden">
+  <div class="absolute inset-0 bg-secondary/[0.04] blur-3xl pointer-events-none"></div>
       <div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
       
       <div class="z-10 reveal active flex flex-col items-center mt-16">
@@ -109,7 +114,8 @@
     </section>
 
     <!-- Section 1: Microscopic Dilemma -->
-    <section id="dilemma" class="min-h-screen w-full flex flex-col items-center justify-center px-4 md:px-8 py-24 max-w-6xl">
+    <section id="dilemma" class="min-h-screen w-full flex flex-col items-center justify-center px-4 md:px-8 py-24 max-w-6xl relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-tertiary/[0.05] to-transparent blur-3xl pointer-events-none"></div>
       <div class="reveal w-full flex flex-col items-center text-center mb-24">
         <span class="text-on-surface-variant font-label-md tracking-[0.2em] uppercase mb-4">The Microscopic Dilemma</span>
         <h2 class="font-display-lg text-[clamp(32px,8vw,72px)] text-on-surface leading-tight font-medium">
