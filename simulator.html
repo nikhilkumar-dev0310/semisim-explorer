@@ -55,7 +55,7 @@
     <div class="absolute bottom-[-10%] left-[30%] w-[550px] h-[450px] rounded-full bg-secondary/[0.035] blur-[100px]"></div>
   </div>
   <!-- Restrained Header -->
-  <header class="h-16 shrink-0 w-full px-6 flex items-center justify-between border-b border-outline/10 z-40 relative glass">
+    <header class="h-16 w-full px-6 flex items-center justify-between border-b border-outline/10 z-40 fixed top-0 left-0 glass">
     <div class="flex items-center gap-4">
       <button onclick="toggleDrawer()" class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-colors">
         <span class="material-symbols-outlined">menu</span>
@@ -86,7 +86,7 @@
   
   </header>
 
-  <div class="flex flex-1 relative overflow-hidden">
+  <div class="flex flex-1 relative overflow-hidden pt-16">
     <!-- Ambient blobs behind drawer for glass depth -->
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
       <div class="absolute top-0 left-0 w-96 h-full bg-gradient-to-b from-primary/[0.07] via-transparent to-tertiary/[0.03]"></div>
@@ -394,6 +394,10 @@
         organic: [
           { name: 'Alq3 (OLED Electron Transport/Emitter)', eg: 2.70, homo: -5.7, lumo: -3.0, color: '#10b981', wl: '520 nm', hue: 'Green', disorder: 0.10, thickness: 100 },
           { name: 'Anthracene (Blue Emitter)', eg: 3.20, homo: -5.8, lumo: -2.6, color: '#8ed5ff', wl: '387 nm', hue: 'Violet/Blue', disorder: 0.05, thickness: 80 },
+          { name: 'Polyacetylene (Nobel 2000 — Shirakawa)', eg: 1.50, homo: -5.5, lumo: -4.0, color: '#64748b', wl: '827 nm', hue: 'Infrared / Non-visible', disorder: 0.09, thickness: 90 },
+          { name: 'Polypyrrole (PPy — Conducting Polymer)', eg: 3.20, homo: -5.2, lumo: -2.0, color: '#8b5cf6', wl: '387 nm', hue: 'Deep Violet / UV', disorder: 0.16, thickness: 100 },
+          { name: 'Polythiophene (PT — Conducting Polymer)', eg: 2.10, homo: -5.0, lumo: -2.9, color: '#f59e0b', wl: '590 nm', hue: 'Amber-Yellow', disorder: 0.13, thickness: 115 },
+          { name: 'Polyaniline (PANI — Conducting Polymer)', eg: 2.35, homo: -5.48, lumo: -3.13, color: '#84cc16', wl: '528 nm', hue: 'Yellow-Green', disorder: 0.14, thickness: 110 },
           { name: 'Pentacene (Organic Semiconductor)', eg: 1.90, homo: -5.0, lumo: -3.1, color: '#ffb4ab', wl: '652 nm', hue: 'Orange-Red', disorder: 0.15, thickness: 150 }
         ],
         inorganic: [
