@@ -20,14 +20,15 @@
       darkMode: "class",
       theme: {
         extend: {
-          colors: {
-            "secondary": "#ffc640", "primary": "#8ed5ff", "tertiary": "#e1c0ff",
-            "surface-container-lowest": "#0a0e16", "surface-variant": "#31353e",
-            "surface-container-highest": "#31353e", "surface-container-low": "#181c24",
-            "surface-container": "#1c2028", "surface": "#0f131c", "on-surface": "#dfe2ee",
-            "on-surface-variant": "#bdc8d1", "outline": "#87929a", "on-primary-container": "#004965",
-            "primary-container": "#38bdf8", "error": "#ffb4ab"
-          },
+        colors: {
+  "secondary": "#ffc640", "primary": "#8ed5ff", "tertiary": "#e1c0ff",
+  "surface-container-lowest": "#0a0e16", "surface-variant": "#31353e",
+  "surface-container-highest": "#31353e", "surface-container-low": "#181c24",
+  "surface-container": "#1c2028", "surface-container-high": "#242833",
+  "surface-bright": "#353942", "surface": "#0f131c", "on-surface": "#dfe2ee",
+  "on-surface-variant": "#bdc8d1", "outline": "#87929a", "on-primary-container": "#004965",
+  "primary-container": "#38bdf8", "error": "#ffb4ab", "on-tertiary": "#490081"
+},
           fontFamily: {
             "body-sm": ["Inter"], "display-lg": ["IBM Plex Sans"], "body-lg": ["Inter"],
             "label-md": ["JetBrains Mono"], "body-md": ["Inter"],
@@ -42,8 +43,12 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
 </head>
 <body class="bg-surface-container-lowest font-body-md text-on-surface antialiased">
-
-  <header class="h-16 shrink-0 w-full px-4 md:px-8 flex items-center justify-between border-b border-outline/10 bg-surface-container-lowest z-40 fixed top-0">
+  <div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+    <div class="absolute top-[-10%] left-[10%] w-[500px] h-[500px] rounded-full bg-primary/[0.05] blur-[100px]"></div>
+    <div class="absolute top-[15%] right-[-10%] w-[550px] h-[450px] rounded-full bg-tertiary/[0.045] blur-[100px]"></div>
+    <div class="absolute bottom-[-15%] left-[25%] w-[500px] h-[450px] rounded-full bg-secondary/[0.035] blur-[100px]"></div>
+  </div>
+ <header class="h-16 shrink-0 w-full px-4 md:px-8 flex items-center justify-between border-b border-outline/10 z-40 fixed top-0 glass">
     <div class="flex items-center gap-4">
       <div class="flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none" class="h-6 w-auto">
